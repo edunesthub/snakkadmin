@@ -59,8 +59,8 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
-      <div className="glass-card rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10">
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
+      <div className="bg-[#121215] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10 relative">
         <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
           <h2 className="text-xl font-bold font-display text-white">Edit Menu Item</h2>
           <button
@@ -80,7 +80,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all placeholder:text-gray-600"
                 placeholder="e.g. Margherita Pizza"
               />
             </div>
@@ -92,7 +92,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all resize-none"
+                className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all resize-none placeholder:text-gray-600"
                 placeholder="Describe the item..."
               />
             </div>
@@ -109,7 +109,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
                     onChange={handleChange}
                     step="0.01"
                     min="0"
-                    className="w-full pl-8 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                    className="w-full pl-8 pr-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
                   />
                 </div>
               </div>
@@ -121,7 +121,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all appearance-none cursor-pointer"
+                    className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all appearance-none cursor-pointer"
                   >
                     <option value="Pizza" className="bg-gray-900">Pizza</option>
                     <option value="Burgers" className="bg-gray-900">Burgers</option>
@@ -136,7 +136,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
             </div>
 
             <div className="flex flex-wrap gap-4 pt-2">
-              <label className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-[#0a0a0f] border border-white/5 cursor-pointer hover:bg-white/10 transition">
                 <input
                   type="checkbox"
                   checked={formData.isPopular}
@@ -146,7 +146,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
                 <span className="text-sm font-medium text-white">⭐ Mark as Popular</span>
               </label>
 
-              <label className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-[#0a0a0f] border border-white/5 cursor-pointer hover:bg-white/10 transition">
                 <input
                   type="checkbox"
                   checked={formData.isVegetarian}

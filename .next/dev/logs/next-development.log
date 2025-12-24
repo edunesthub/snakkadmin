@@ -419,3 +419,159 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [00:15:05.059] Browser WARN    Image with src "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [00:15:09.482] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:55:55.269] Server  LOG      ✓ Compiled in 734ms
+[00:55:55.371] Browser ERROR   ./app/menu/page.tsx:168:7
+Parsing ecmascript source code failed
+  166 |         />
+  167 |       )}
+> 168 |     </>
+      |       ^
+  169 |   );
+  170 | }
+  171 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/menu/page.tsx [Client Component Browser]
+    ./app/menu/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/menu/page.tsx [Client Component SSR]
+    ./app/menu/page.tsx [Server Component]
+[00:55:55.895] Browser ERROR   ./app/menu/page.tsx:169:9
+Parsing ecmascript source code failed
+  167 |           />
+  168 |         )}
+> 169 |       </>
+      |         ^
+  170 |       );
+  171 | }
+  172 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/menu/page.tsx [Client Component Browser]
+    ./app/menu/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/menu/page.tsx [Client Component SSR]
+    ./app/menu/page.tsx [Server Component]
+[00:56:15.063] Server  LOG      ✓ Compiled in 203ms
+[00:56:15.164] Browser ERROR   ./app/menu/page.tsx:169:9
+Parsing ecmascript source code failed
+  167 |           />
+  168 |         )}
+> 169 |       </>
+      |         ^
+  170 |       );
+  171 | }
+  172 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/menu/page.tsx [Client Component Browser]
+    ./app/menu/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/menu/page.tsx [Client Component SSR]
+    ./app/menu/page.tsx [Server Component]
+[00:56:16.981] Server  LOG      ✓ Compiled in 91ms
+[00:56:17.082] Browser ERROR   ./app/menu/page.tsx:169:9
+Parsing ecmascript source code failed
+  167 |           />
+  168 |         )}
+> 169 |       </>
+      |         ^
+  170 |       );
+  171 | }
+  172 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/menu/page.tsx [Client Component Browser]
+    ./app/menu/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/menu/page.tsx [Client Component SSR]
+    ./app/menu/page.tsx [Server Component]
+[00:56:18.947] Server  LOG      ✓ Compiled in 58ms
+[00:56:19.048] Browser ERROR   ./app/menu/page.tsx:169:9
+Parsing ecmascript source code failed
+  167 |           />
+  168 |         )}
+> 169 |       </>
+      |         ^
+  170 |       );
+  171 | }
+  172 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/menu/page.tsx [Client Component Browser]
+    ./app/menu/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/menu/page.tsx [Client Component SSR]
+    ./app/menu/page.tsx [Server Component]
+[00:57:15.823] Server  LOG      ✓ Compiled in 206ms
+[00:57:38.698] Server  LOG      ✓ Compiled in 1135ms
+[00:57:39.644] Server  LOG      ✓ Compiled in 57ms
+[00:58:22.414] Server  LOG      ✓ Compiled in 657ms
+[00:58:22.515] Browser ERROR   ./app/components/DeleteConfirmModal.tsx:86:6
+Parsing ecmascript source code failed
+  84 |       </div>
+  85 |     </div>
+> 86 |     </div >
+     |      ^^^^^^
+  87 |   );
+  88 | }
+  89 |
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./app/components/DeleteConfirmModal.tsx [Client Component Browser]
+    ./app/restaurants/page.tsx [Client Component Browser]
+    ./app/restaurants/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/components/DeleteConfirmModal.tsx [Client Component SSR]
+    ./app/restaurants/page.tsx [Client Component SSR]
+    ./app/restaurants/page.tsx [Server Component]
+[00:58:33.165] Browser ERROR   ./app/components/DeleteConfirmModal.tsx:86:6
+Parsing ecmascript source code failed
+  84 |       </div>
+  85 |     </div>
+> 86 |     </div >
+     |      ^^^^^^
+  87 |   );
+  88 | }
+  89 |
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./app/components/DeleteConfirmModal.tsx [Client Component Browser]
+    ./app/restaurants/page.tsx [Client Component Browser]
+    ./app/restaurants/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/components/DeleteConfirmModal.tsx [Client Component SSR]
+    ./app/restaurants/page.tsx [Client Component SSR]
+    ./app/restaurants/page.tsx [Server Component]
+[00:59:45.781] Server  LOG      ✓ Compiled in 77ms
+[01:00:32.193] Server  LOG      ✓ Compiled in 254ms
+[01:02:50.821] Browser WARN    Image with src "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
