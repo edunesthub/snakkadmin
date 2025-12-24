@@ -43,7 +43,8 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
     try {
       setSaving(true);
       const itemRef = doc(db, 'menuItems', item.id);
-      const { id, ...updateData } = formData;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id: _id, ...updateData } = formData;
       await updateDoc(itemRef, updateData);
       onSave();
       onClose();
@@ -58,109 +59,126 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-800">
-        <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-4 md:p-6 flex justify-between items-center">
-          <h2 className="text-xl md:text-2xl font-bold text-white">Edit Menu Item</h2>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
+      <div className="glass-card rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10">
+        <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
+          <h2 className="text-xl font-bold font-display text-white">Edit Menu Item</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-200 text-2xl"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition"
           >
             ×
           </button>
         </div>
 
-        <div className="p-4 md:p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Item Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-gray-100"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={3}
-              className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-gray-100"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="p-6 space-y-6 overflow-y-auto custom-scrollbar">
+          <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Price ($)</label>
+              <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Item Name</label>
               <input
-                type="number"
-                name="price"
-                value={formData.price}
+                type="text"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
-                step="0.01"
-                min="0"
-                className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-gray-100"
+                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                placeholder="e.g. Margherita Pizza"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Category</label>
-              <select
-                name="category"
-                value={formData.category}
+              <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-gray-100"
-              >
-                <option value="Pizza">Pizza</option>
-                <option value="Burgers">Burgers</option>
-                <option value="Sushi">Sushi</option>
-                <option value="Healthy">Healthy</option>
-                <option value="Desserts">Desserts</option>
-                <option value="Beverages">Beverages</option>
-              </select>
+                rows={3}
+                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all resize-none"
+                placeholder="Describe the item..."
+              />
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.isPopular}
-                onChange={(e) => handleCheckboxChange('isPopular', e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-700 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="ml-2 text-sm font-medium text-gray-300">Mark as Popular</span>
-            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Price ($)</label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                  <input
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    step="0.01"
+                    min="0"
+                    className="w-full pl-8 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                  />
+                </div>
+              </div>
 
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.isVegetarian}
-                onChange={(e) => handleCheckboxChange('isVegetarian', e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-700 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="ml-2 text-sm font-medium text-gray-300">Vegetarian Item</span>
-            </label>
+              <div>
+                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Category</label>
+                <div className="relative">
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all appearance-none cursor-pointer"
+                  >
+                    <option value="Pizza" className="bg-gray-900">Pizza</option>
+                    <option value="Burgers" className="bg-gray-900">Burgers</option>
+                    <option value="Sushi" className="bg-gray-900">Sushi</option>
+                    <option value="Healthy" className="bg-gray-900">Healthy</option>
+                    <option value="Desserts" className="bg-gray-900">Desserts</option>
+                    <option value="Beverages" className="bg-gray-900">Beverages</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">▼</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4 pt-2">
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
+                <input
+                  type="checkbox"
+                  checked={formData.isPopular}
+                  onChange={(e) => handleCheckboxChange('isPopular', e.target.checked)}
+                  className="w-5 h-5 text-blue-600 bg-black/40 border-gray-600 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-white">⭐ Mark as Popular</span>
+              </label>
+
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
+                <input
+                  type="checkbox"
+                  checked={formData.isVegetarian}
+                  onChange={(e) => handleCheckboxChange('isVegetarian', e.target.checked)}
+                  className="w-5 h-5 text-blue-600 bg-black/40 border-gray-600 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-white">🌱 Vegetarian Item</span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <div className="sticky bottom-0 bg-gray-800 border-t border-gray-700 p-4 md:p-6 flex gap-2 justify-end">
+        <div className="p-6 border-t border-white/5 bg-white/5 flex gap-3 justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition"
+            className="px-6 py-2.5 text-gray-300 hover:text-white glass-button rounded-xl transition hover:bg-white/10 font-medium"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 transition"
+            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-600/20 disabled:opacity-50 transition active:scale-95 font-medium flex items-center gap-2"
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                Saving...
+              </>
+            ) : (
+              'Save Changes'
+            )}
           </button>
         </div>
       </div>
