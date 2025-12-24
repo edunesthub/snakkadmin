@@ -58,8 +58,8 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
-      <div className="glass-card rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10">
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
+      <div className="bg-[#121215] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10 relative">
         <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
           <h2 className="text-xl font-bold font-display text-white">Edit Restaurant</h2>
           <button
@@ -79,7 +79,7 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all placeholder:text-gray-600"
               />
             </div>
 
@@ -90,7 +90,7 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all resize-none"
+                className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all resize-none placeholder:text-gray-600"
               />
             </div>
 
@@ -101,7 +101,7 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
               />
             </div>
 
@@ -118,7 +118,7 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                     step="0.1"
                     min="0"
                     max="5"
-                    className="w-full pl-10 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
                   />
                 </div>
               </div>
@@ -134,7 +134,7 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                     onChange={handleChange}
                     step="0.01"
                     min="0"
-                    className="w-full pl-8 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                    className="w-full pl-8 pr-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
                   />
                 </div>
               </div>
@@ -147,7 +147,7 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                   value={formData.deliveryTime}
                   onChange={handleChange}
                   placeholder="e.g., 30-45 mins"
-                  className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                  className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all placeholder:text-gray-600"
                 />
               </div>
 
@@ -158,13 +158,13 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                   name="distance"
                   value={formData.distance}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
+                  className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition w-full sm:w-auto">
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-[#0a0a0f] border border-white/5 cursor-pointer hover:bg-white/10 transition w-full sm:w-auto">
                 <input
                   type="checkbox"
                   name="isOpen"
