@@ -41,32 +41,42 @@ export function DeleteConfirmModal({ itemId, itemName, itemType, isOpen, onClose
 
   if (!isOpen) return null;
 
-  const displayType = itemType === 'restaurant' ? 'Restaurant' : itemType === 'menuItem' ? 'Menu Item' : 'Order';
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-lg shadow-lg max-w-sm w-full border border-gray-800">
-        <div className="p-4 md:p-6">
-          <h2 className="text-lg md:text-xl font-bold text-white mb-2">Delete {displayType}?</h2>
-          <p className="text-gray-400 text-sm md:text-base mb-4">
-            Are you sure you want to delete <strong className="text-gray-200">{itemName}</strong>? This action cannot be undone.
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
+      <div className="bg-[#121215] rounded-2xl shadow-2xl max-w-md w-full overflow-hidden flex flex-col animate-scale-in border border-white/10 relative">
+        <div className="p-6 text-center">
+          <div className="w-16 h-16 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto mb-4 border border-red-500/20">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold font-display text-white mb-2">Delete Item?</h2>
+          <p className="text-gray-400">
+            Are you sure you want to delete <span className="text-white font-medium">&quot;{itemName}&quot;</span>?
+            This action cannot be undone.
           </p>
         </div>
-
-        <div className="bg-gray-800 border-t border-gray-700 p-4 md:p-6 flex gap-2 justify-end">
+        <div className="flex gap-3 justify-center p-6 border-t border-white/10">
           <button
             onClick={onClose}
             disabled={deleting}
-            className="px-4 py-2 text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition disabled:opacity-50"
+            className="px-6 py-2.5 text-gray-300 hover:text-white glass-button rounded-xl transition hover:bg-white/5 font-medium"
           >
             Cancel
           </button>
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-400 transition"
+            className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl shadow-lg shadow-red-600/20 disabled:opacity-50 transition active:scale-95 font-medium flex items-center gap-2"
           >
-            {deleting ? 'Deleting...' : 'Delete'}
+            {deleting ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              'Delete'
+            )}
           </button>
         </div>
       </div>

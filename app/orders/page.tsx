@@ -3,8 +3,11 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { PremiumLoading } from '../components/PremiumLoading';
 import { UpdateOrderStatusModal } from '../components/UpdateOrderStatusModal';
 import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
+
+import { Timestamp } from 'firebase/firestore';
 
 interface Order {
   id: string;
@@ -13,7 +16,8 @@ interface Order {
   status: string;
   total: number;
   deliveryFee: number;
-  createdAt: any;
+  createdAt: Timestamp;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[];
 }
 
@@ -42,95 +46,93 @@ export default function OrdersPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'confirmed': return 'bg-blue-100 text-blue-800';
-      case 'preparing': return 'bg-purple-100 text-purple-800';
-      case 'on-the-way': return 'bg-indigo-100 text-indigo-800';
-      case 'delivered': return 'bg-green-100 text-green-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'pending': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/20';
+      case 'confirmed': return 'bg-blue-500/20 text-blue-400 border-blue-500/20';
+      case 'preparing': return 'bg-purple-500/20 text-purple-400 border-purple-500/20';
+      case 'on-the-way': return 'bg-indigo-500/20 text-indigo-400 border-indigo-500/20';
+      case 'delivered': return 'bg-green-500/20 text-green-400 border-green-500/20';
+      case 'cancelled': return 'bg-red-500/20 text-red-400 border-red-500/20';
+      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/20';
     }
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg md:text-xl">Loading orders...</div>
-      </div>
-    );
+    return <PremiumLoading />;
   }
 
   return (
-    <div className="p-4 md:p-8 bg-gray-950 min-h-screen">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-8 text-white">Orders</h1>
+    <div className="p-4 md:p-8 min-h-full animate-enter">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold font-display text-white">Orders</h1>
+        <p className="text-gray-400 text-sm mt-1">Track and manage customer orders in real-time.</p>
+      </div>
 
       {orders.length === 0 ? (
-        <div className="bg-gray-900 rounded-lg shadow p-6 md:p-8 text-center border border-gray-800">
-          <p className="text-gray-400 text-sm md:text-base">No orders yet. Run the seed script to add sample data.</p>
+        <div className="glass-card rounded-2xl p-12 text-center border-dashed border-2 border-white/10">
+          <div className="text-6xl mb-4">📦</div>
+          <h3 className="text-xl font-bold text-white mb-2">No orders yet</h3>
+          <p className="text-gray-400 max-w-sm mx-auto">
+            Waiting for the first order to come in. Try running the seed script if you are in development.
+          </p>
         </div>
       ) : (
         <>
           {/* Desktop Table View */}
-          <div className="hidden md:block bg-gray-900 rounded-lg shadow overflow-hidden border border-gray-800">
-            <table className="min-w-full divide-y divide-gray-800">
-              <thead className="bg-gray-800 border-b border-gray-700">
+          <div className="hidden md:block glass-card rounded-2xl overflow-hidden">
+            <table className="min-w-full divide-y divide-white/5">
+              <thead className="bg-white/5">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                    Order ID
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Restaurant
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Total
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Order ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Restaurant</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Total</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-gray-300 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-gray-900 divide-y divide-gray-800">
+              <tbody className="divide-y divide-white/5">
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-800 border-b border-gray-800">
+                  <tr key={order.id} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-100">#{order.id.slice(0, 8)}</div>
+                      <div className="text-sm font-mono text-gray-300">#{order.id.slice(0, 8)}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-100">{order.restaurantId}</div>
+                      <div className="text-sm text-white font-medium">{order.restaurantId}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                      <span className={`px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full border ${getStatusColor(order.status)}`}>
                         {order.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-100">${order.total?.toFixed(2) || '0.00'}</div>
+                      <div className="text-sm font-medium text-white">${order.total?.toFixed(2) || '0.00'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-400">
                         {order.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button onClick={() => alert('View order details coming soon')} className="text-blue-600 hover:text-blue-900 mr-4">View</button>
-                      <button 
-                        onClick={() => setUpdatingOrderId(order.id)}
-                        className="text-green-600 hover:text-green-900 mr-4"
-                      >
-                        Update Status
-                      </button>
-                      <button 
-                        onClick={() => setDeletingOrderId(order.id)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        Delete
-                      </button>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => alert('View order details coming soon')}
+                          className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 p-2 rounded-lg transition-colors"
+                        >
+                          View
+                        </button>
+                        <button
+                          onClick={() => setUpdatingOrderId(order.id)}
+                          className="text-green-400 hover:text-green-300 hover:bg-green-500/10 p-2 rounded-lg transition-colors"
+                        >
+                          Update
+                        </button>
+                        <button
+                          onClick={() => setDeletingOrderId(order.id)}
+                          className="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -139,51 +141,46 @@ export default function OrdersPage() {
           </div>
 
           {/* Mobile Card View */}
-          <div className="md:hidden space-y-3">
+          <div className="md:hidden space-y-4">
             {orders.map((order) => (
-              <div key={order.id} className="bg-gray-900 rounded-lg shadow p-4 border border-gray-800">
-                <div className="flex justify-between items-start mb-3">
+              <div key={order.id} className="glass-card rounded-2xl p-5">
+                <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="text-xs text-gray-400">Order ID</p>
-                    <p className="font-semibold text-sm text-gray-100">#{order.id.slice(0, 8)}</p>
+                    <span className="text-xs text-gray-500 font-mono mb-1 block">#{order.id.slice(0, 8)}</span>
+                    <h3 className="font-semibold text-white">{order.restaurantId}</h3>
                   </div>
-                  <span className={`px-3 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                  <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${getStatusColor(order.status)}`}>
                     {order.status}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mb-3 text-sm">
-                  <div>
-                    <p className="text-gray-400 text-xs">Restaurant</p>
-                    <p className="font-semibold text-gray-100">{order.restaurantId}</p>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="bg-white/5 rounded-xl p-3">
+                    <p className="text-gray-500 text-xs mb-1">Total Amount</p>
+                    <p className="font-bold text-white text-lg">${order.total?.toFixed(2) || '0.00'}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-400 text-xs">Total</p>
-                    <p className="font-semibold text-gray-100">${order.total?.toFixed(2) || '0.00'}</p>
+                  <div className="bg-white/5 rounded-xl p-3">
+                    <p className="text-gray-500 text-xs mb-1">Date</p>
+                    <p className="font-medium text-white text-sm mt-1">{order.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}</p>
                   </div>
-                </div>
-
-                <div className="mb-3 text-sm">
-                  <p className="text-gray-400 text-xs">Date</p>
-                  <p className="font-semibold text-gray-100">{order.createdAt?.toDate?.()?.toLocaleDateString() || 'N/A'}</p>
                 </div>
 
                 <div className="flex gap-2">
-                  <button 
+                  <button
                     onClick={() => alert('View order details coming soon')}
-                    className="flex-1 bg-blue-900 text-blue-300 py-2 px-3 rounded text-xs font-semibold hover:bg-blue-800 active:bg-blue-700 transition"
+                    className="flex-1 bg-white/5 hover:bg-white/10 text-blue-300 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-white/10"
                   >
                     View
                   </button>
-                  <button 
+                  <button
                     onClick={() => setUpdatingOrderId(order.id)}
-                    className="flex-1 bg-green-900 text-green-300 py-2 px-3 rounded text-xs font-semibold hover:bg-green-800 active:bg-green-700 transition"
+                    className="flex-1 bg-white/5 hover:bg-green-500/20 text-green-400 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-white/10 hover:border-green-500/20"
                   >
-                    Update Status
+                    Update
                   </button>
-                  <button 
+                  <button
                     onClick={() => setDeletingOrderId(order.id)}
-                    className="flex-1 bg-red-900 text-red-300 py-2 px-3 rounded text-xs font-semibold hover:bg-red-800 active:bg-red-700 transition"
+                    className="flex-1 bg-white/5 hover:bg-red-500/20 text-red-400 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-white/10 hover:border-red-500/20"
                   >
                     Delete
                   </button>
