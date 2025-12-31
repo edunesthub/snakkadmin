@@ -33,6 +33,7 @@ export function MobileNav() {
     { href: '/restaurants', label: 'Restaurants', icon: '🏪' },
     { href: '/menu', label: 'Menu Items', icon: '🍕' },
     { href: '/orders', label: 'Orders', icon: '📦' },
+    { href: '/ads', label: 'Ads', icon: '📢' },
   ];
 
   return (

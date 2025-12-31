@@ -77,6 +77,13 @@ export default function RootLayout({
                 <span className="text-xl group-hover:animate-bounce-subtle">📦</span>
                 <span className="font-medium">Orders</span>
               </Link>
+              <Link
+                href="/ads"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 hover:scale-[1.02] active:scale-[0.98] group text-gray-300 hover:text-white"
+              >
+                <span className="text-xl group-hover:animate-bounce-subtle">📢</span>
+                <span className="font-medium">Ads</span>
+              </Link>
             </nav>
 
             <div className="p-4 border-t border-white/5">
