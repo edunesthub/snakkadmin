@@ -13,6 +13,7 @@ interface Restaurant {
   deliveryFee: number;
   cuisine: string[];
   categories: string[];
+  isStudent: boolean;
   description: string;
   address: string;
   isOpen: boolean;
@@ -27,7 +28,10 @@ interface Props {
 }
 
 export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Props) {
-  const [formData, setFormData] = useState(restaurant);
+  const [formData, setFormData] = useState({
+    ...restaurant,
+    isStudent: restaurant.isStudent || false
+  });
   const [saving, setSaving] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -161,6 +165,19 @@ export function EditRestaurantModal({ restaurant, isOpen, onClose, onSave }: Pro
                   className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white transition-all"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="flex items-center gap-3 p-3 rounded-xl bg-[#0a0a0f] border border-white/5 cursor-pointer hover:bg-white/10 transition w-full sm:w-auto">
+                <input
+                  type="checkbox"
+                  name="isStudent"
+                  checked={formData.isStudent}
+                  onChange={(e) => setFormData(prev => ({ ...prev, isStudent: e.target.checked }))}
+                  className="w-5 h-5 text-blue-600 bg-black/40 border-gray-600 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-white">🎓 Student Restaurant</span>
+              </label>
             </div>
 
             <div>
