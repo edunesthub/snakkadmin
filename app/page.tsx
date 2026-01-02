@@ -1,8 +1,48 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function DashboardHome() {
+  const [stats, setStats] = useState({
+    totalOrders: 0,
+    activeRestaurants: 0,
+    menuItems: 0,
+    totalUsers: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Fetch orders
+        const ordersSnapshot = await getDocs(collection(db, 'orders'));
+        
+        // Fetch restaurants
+        const restaurantsSnapshot = await getDocs(collection(db, 'restaurants'));
+        const activeRestaurants = restaurantsSnapshot.docs.filter(doc => doc.data().isOpen).length;
+        
+        // Fetch menu items
+        const menuSnapshot = await getDocs(collection(db, 'menuItems'));
+        
+        // Fetch users
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        
+        setStats({
+          totalOrders: ordersSnapshot.size,
+          activeRestaurants: activeRestaurants,
+          menuItems: menuSnapshot.size,
+          totalUsers: usersSnapshot.size,
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <div className="p-4 md:p-8 min-h-full animate-enter">
       <header className="mb-8 md:mb-12">
@@ -12,16 +52,16 @@ export default function DashboardHome() {
         <p className="text-gray-400">Welcome back to your administration panel.</p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 md:mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 md:mb-12">
         {/* Stats Card 1 */}
         <div className="glass-card p-6 rounded-2xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-blue-500/20" />
           <div className="relative z-10">
             <h3 className="text-gray-400 font-medium mb-1">Total Orders</h3>
-            <p className="text-4xl font-bold font-display text-white mb-2">0</p>
+            <p className="text-4xl font-bold font-display text-white mb-2">{stats.totalOrders}</p>
             <div className="flex items-center gap-2 text-sm text-blue-400 bg-blue-500/10 w-fit px-2 py-1 rounded-lg">
-              <span>↗ 0%</span>
-              <span className="text-blue-200/50">vs last week</span>
+              <span>📦</span>
+              <span className="text-blue-200/50">All time</span>
             </div>
           </div>
         </div>
@@ -31,8 +71,9 @@ export default function DashboardHome() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-green-500/20" />
           <div className="relative z-10">
             <h3 className="text-gray-400 font-medium mb-1">Active Restaurants</h3>
-            <p className="text-4xl font-bold font-display text-white mb-2">6</p>
+            <p className="text-4xl font-bold font-display text-white mb-2">{stats.activeRestaurants}</p>
             <div className="flex items-center gap-2 text-sm text-green-400 bg-green-500/10 w-fit px-2 py-1 rounded-lg">
+              <span>🏪</span>
               <span>Ready to serve</span>
             </div>
           </div>
@@ -43,10 +84,24 @@ export default function DashboardHome() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-purple-500/20" />
           <div className="relative z-10">
             <h3 className="text-gray-400 font-medium mb-1">Menu Items</h3>
-            <p className="text-4xl font-bold font-display text-white mb-2">10</p>
+            <p className="text-4xl font-bold font-display text-white mb-2">{stats.menuItems}</p>
             <div className="flex items-center gap-2 text-sm text-purple-400 bg-purple-500/10 w-fit px-2 py-1 rounded-lg">
+              <span>🍕</span>
               <span>Across all venues</span>
             </div>
+          </div>
+        </div>
+
+        {/* Stats Card 4 - Users */}
+        <div className="glass-card p-6 rounded-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-orange-500/20" />
+          <div className="relative z-10">
+            <h3 className="text-gray-400 font-medium mb-1">Total Users</h3>
+            <p className="text-4xl font-bold font-display text-white mb-2">{stats.totalUsers}</p>
+            <Link href="/users" className="flex items-center gap-2 text-sm text-orange-400 bg-orange-500/10 w-fit px-2 py-1 rounded-lg hover:bg-orange-500/20 transition-colors">
+              <span>👥</span>
+              <span>View details</span>
+            </Link>
           </div>
         </div>
       </div>
@@ -86,25 +141,6 @@ export default function DashboardHome() {
             <h3 className="font-semibold text-lg text-white mb-2">View Orders</h3>
             <p className="text-sm text-gray-400">Track incoming orders and manage delivery status in real-time.</p>
           </Link>
-        </div>
-      </div>
-
-      <div className="glass-panel p-6 md:p-8 rounded-2xl border-l-4 border-blue-500">
-        <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-          <div className="flex-1">
-            <h3 className="text-lg font-bold text-white mb-2">🚀 Getting Started</h3>
-            <p className="text-gray-300 mb-4 text-sm max-w-2xl">
-              Your dashboard is ready. Follow these steps to ensure everything is configured correctly for your first order.
-            </p>
-            <ol className="list-decimal list-inside space-y-2 text-sm text-gray-400">
-              <li>Verify Firebase credentials in <code className="bg-white/10 px-2 py-1 rounded text-blue-300">.env.local</code></li>
-              <li>Seed initial data: <code className="bg-white/10 px-2 py-1 rounded text-blue-300">npm run seed-data</code></li>
-              <li>Start managing your business!</li>
-            </ol>
-          </div>
-          <div className="hidden md:block">
-            <div className="w-20 h-20 rounded-full bg-linear-to-tr from-blue-500 to-cyan-400 blur-xl opacity-50 animate-pulse" />
-          </div>
         </div>
       </div>
     </div>
