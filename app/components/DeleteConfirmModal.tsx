@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 interface Props {
   itemId: string;
   itemName: string;
-  itemType: 'restaurant' | 'menuItem' | 'order' | 'ad';
+  itemType: 'restaurant' | 'menuItem' | 'order' | 'ad' | 'user';
   isOpen: boolean;
   onClose: () => void;
   onDelete: () => void;
@@ -43,6 +43,8 @@ export function DeleteConfirmModal({ itemId, itemName, itemType, isOpen, onClose
           collection = 'restaurants';
         } else if (itemType === 'menuItem') {
           collection = 'menuItems';
+        } else if (itemType === 'user') {
+          collection = 'users';
         } else {
           collection = 'orders';
         }

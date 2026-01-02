@@ -21,6 +21,7 @@ interface Restaurant {
   address: string;
   isOpen: boolean;
   distance: string;
+  isStudent: boolean;
 }
 
 export default function RestaurantsPage() {
