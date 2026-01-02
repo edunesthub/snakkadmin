@@ -43,7 +43,7 @@ export function MobileNav() {
       <div className="md:hidden flex items-center justify-between glass-panel px-4 py-3 sticky top-0 z-50">
         <Link href='/'>
           <h1 className="text-xl font-bold font-display bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Bolt Food
+            Snakk
           </h1>
         </Link>
         <button

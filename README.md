@@ -1,6 +1,6 @@
-# Bolt Food Admin Dashboard
+# Snakk Admin Dashboard
 
-A Next.js admin dashboard for managing the Bolt Food delivery platform.
+A Next.js admin dashboard for managing the Snakk delivery platform.
 
 ## Features
 

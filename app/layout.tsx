@@ -17,8 +17,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Bolt Food Admin",
-  description: "Admin dashboard for Bolt Food delivery platform",
+  title: "Snakk Admin",
+  description: "Admin dashboard for Snakk delivery platform",
 };
 
 export default function RootLayout({
@@ -43,7 +43,7 @@ export default function RootLayout({
           <aside className="hidden md:flex flex-col w-64 glass-card border-r border-white/5 z-20">
             <div className="p-6">
               <h1 className="text-2xl font-bold font-display bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Bolt Food
+                Snakk
               </h1>
               <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest">Admin</p>
             </div>
