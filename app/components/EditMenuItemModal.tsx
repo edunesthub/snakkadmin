@@ -60,18 +60,18 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in" role="dialog" aria-modal="true">
-      <div className="bg-[#121215] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10 relative">
-        <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
+      <div className="bg-[#121215] rounded-2xl shadow-2xl w-full max-w-2xl h-[90vh] max-h-[90vh] overflow-hidden flex flex-col animate-scale-in border border-white/10 relative">
+        <div className="flex-shrink-0 p-6 border-b border-white/5 flex justify-between items-center bg-white/5">
           <h2 className="text-xl font-bold font-display text-white">Edit Menu Item</h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition flex-shrink-0"
           >
             ×
           </button>
         </div>
 
-        <div className="p-6 space-y-6 overflow-y-auto custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Item Name</label>
@@ -159,7 +159,7 @@ export function EditMenuItemModal({ item, isOpen, onClose, onSave }: Props) {
           </div>
         </div>
 
-        <div className="p-6 border-t border-white/5 bg-white/5 flex gap-3 justify-end">
+        <div className="flex-shrink-0 p-6 border-t border-white/5 bg-white/5 flex gap-3 justify-end">
           <button
             onClick={onClose}
             className="px-6 py-2.5 text-gray-300 hover:text-white glass-button rounded-xl transition hover:bg-white/10 font-medium"

@@ -64,6 +64,13 @@ export default function RootLayout({
                 <span className="font-medium">Restaurants</span>
               </Link>
               <Link
+                href="/schools"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 hover:scale-[1.02] active:scale-[0.98] group text-gray-300 hover:text-white"
+              >
+                <span className="text-xl group-hover:animate-bounce-subtle">🎓</span>
+                <span className="font-medium">Schools</span>
+              </Link>
+              <Link
                 href="/menu"
                 className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white/5 hover:scale-[1.02] active:scale-[0.98] group text-gray-300 hover:text-white"
               >

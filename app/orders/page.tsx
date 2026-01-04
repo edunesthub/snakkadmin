@@ -3,6 +3,7 @@
 import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { PremiumLoading } from '../components/PremiumLoading';
 import { UpdateOrderStatusModal } from '../components/UpdateOrderStatusModal';
 import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
@@ -11,17 +12,32 @@ import { Timestamp } from 'firebase/firestore';
 
 interface Order {
   id: string;
-  userId?: string;
+  userId: string;
+  userInfo?: {
+    name: string | null;
+    email: string | null;
+    phone: string | null;
+  };
   restaurantId: string;
   status: string;
   total: number;
+  subtotal: number;
   deliveryFee: number;
+  serviceFee: number;
+  discount: number;
   createdAt: Timestamp;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: any[];
+  items: Array<{
+    menuItemId: string;
+    menuItemName: string;
+    price: number;
+    selectedType?: string;
+    quantity: number;
+    extras: Array<{ name: string; price: number; quantity?: number }>;
+  }>;
 }
 
 export default function OrdersPage() {
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
@@ -83,6 +99,7 @@ export default function OrdersPage() {
               <thead className="bg-white/5">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Order ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Customer</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Restaurant</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">Total</th>
@@ -95,6 +112,10 @@ export default function OrdersPage() {
                   <tr key={order.id} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-mono text-gray-300">#{order.id.slice(0, 8)}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-white font-medium">{order.userInfo?.name || 'N/A'}</div>
+                      <div className="text-xs text-gray-400">{order.userInfo?.phone || ''}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-white font-medium">{order.restaurantId}</div>
@@ -115,19 +136,19 @@ export default function OrdersPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
-                          onClick={() => alert('View order details coming soon')}
+                          onClick={() => router.push(`/orders/view/${order.id}`)}
                           className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 p-2 rounded-lg transition-colors"
                         >
                           View
                         </button>
                         <button
-                          onClick={() => setUpdatingOrderId(order.id)}
+                          onClick={() => router.push(`/orders/update-status/${order.id}`)}
                           className="text-green-400 hover:text-green-300 hover:bg-green-500/10 p-2 rounded-lg transition-colors"
                         >
                           Update
                         </button>
                         <button
-                          onClick={() => setDeletingOrderId(order.id)}
+                          onClick={() => router.push(`/delete/${order.id}?type=order&collection=orders`)}
                           className="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
                         >
                           Delete
@@ -148,6 +169,7 @@ export default function OrdersPage() {
                   <div>
                     <span className="text-xs text-gray-500 font-mono mb-1 block">#{order.id.slice(0, 8)}</span>
                     <h3 className="font-semibold text-white">{order.restaurantId}</h3>
+                    {order.userInfo?.name && <p className="text-xs text-gray-400 mt-1">{order.userInfo.name}</p>}
                   </div>
                   <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border ${getStatusColor(order.status)}`}>
                     {order.status}
@@ -167,19 +189,19 @@ export default function OrdersPage() {
 
                 <div className="flex gap-2">
                   <button
-                    onClick={() => alert('View order details coming soon')}
+                    onClick={() => router.push(`/orders/view/${order.id}`)}
                     className="flex-1 bg-white/5 hover:bg-white/10 text-blue-300 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-white/10"
                   >
                     View
                   </button>
                   <button
-                    onClick={() => setUpdatingOrderId(order.id)}
+                    onClick={() => router.push(`/orders/update-status/${order.id}`)}
                     className="flex-1 bg-white/5 hover:bg-green-500/20 text-green-400 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-white/10 hover:border-green-500/20"
                   >
                     Update
                   </button>
                   <button
-                    onClick={() => setDeletingOrderId(order.id)}
+                    onClick={() => router.push(`/delete/${order.id}?type=order&collection=orders`)}
                     className="flex-1 bg-white/5 hover:bg-red-500/20 text-red-400 py-2.5 rounded-xl text-sm font-semibold transition-colors border border-white/10 hover:border-red-500/20"
                   >
                     Delete
@@ -190,27 +212,23 @@ export default function OrdersPage() {
           </div>
 
           {/* Update Status Modal */}
-          {updatingOrderId && (
-            <UpdateOrderStatusModal
-              orderId={updatingOrderId}
-              currentStatus={orders.find(o => o.id === updatingOrderId)?.status || 'pending'}
-              isOpen={!!updatingOrderId}
-              onClose={() => setUpdatingOrderId(null)}
-              onUpdate={fetchOrders}
-            />
-          )}
+          <UpdateOrderStatusModal
+            orderId={updatingOrderId || ''}
+            currentStatus={orders.find(o => o.id === updatingOrderId)?.status || 'pending'}
+            isOpen={!!updatingOrderId}
+            onClose={() => setUpdatingOrderId(null)}
+            onUpdate={() => {}}
+          />
 
           {/* Delete Order Modal */}
-          {deletingOrderId && (
-            <DeleteConfirmModal
-              itemId={deletingOrderId}
-              itemName={`Order #${deletingOrderId.slice(0, 8)}`}
-              itemType="order"
-              isOpen={!!deletingOrderId}
-              onClose={() => setDeletingOrderId(null)}
-              onDelete={fetchOrders}
-            />
-          )}
+          <DeleteConfirmModal
+            itemId={deletingOrderId || ''}
+            itemName={`Order #${deletingOrderId?.slice(0, 8) || ''}`}
+            itemType="order"
+            isOpen={!!deletingOrderId}
+            onClose={() => setDeletingOrderId(null)}
+            onDelete={() => {}}
+          />
         </>
       )}
     </div>

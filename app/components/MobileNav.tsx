@@ -31,6 +31,7 @@ export function MobileNav() {
   const navLinks = [
     { href: '/', label: 'Dashboard', icon: '📊' },
     { href: '/restaurants', label: 'Restaurants', icon: '🏪' },
+    { href: '/schools', label: 'Schools', icon: '🎓' },
     { href: '/menu', label: 'Menu Items', icon: '🍕' },
     { href: '/orders', label: 'Orders', icon: '📦' },
     { href: '/ads', label: 'Ads', icon: '📢' },
